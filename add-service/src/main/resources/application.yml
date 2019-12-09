@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: add-service
+server:
+  port: 7777

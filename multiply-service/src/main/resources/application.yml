@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: multiply-service
+server:
+  port: 7778
