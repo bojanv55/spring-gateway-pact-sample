@@ -4,10 +4,16 @@ spring:
   cloud:
     gateway:
       routes:
-      - id: add_service_route
-        uri: localhost:7777
-        predicates:
-        - Path=/saberi/{segment},/dodaj/{segment}
+        - id: add_service_route #http://localhost:7779/add?a=1&b=2
+          uri: http://localhost:7777
+          predicates:
+            - Path=/add/**
+        - id: add_service_route_rewritten #http://localhost:7779/saberi/?a=1&b=2
+          uri: http://localhost:7777
+          predicates:
+            - Path=/saberi/**
+          filters:
+            - RewritePath=/saberi/(?<a>[^/]+)/(?<b>[^/]+), /add?a=$\{a}&b=$\{b}
 
 server:
   port: 7779
