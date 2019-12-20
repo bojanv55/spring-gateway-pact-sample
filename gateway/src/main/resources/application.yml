@@ -5,25 +5,30 @@ spring:
     gateway:
       routes:
         - id: add_service_route #http://localhost:7779/add?a=1&b=2
-          uri: http://localhost:7777
+          uri: ${gateway.services.adder-uri}
           predicates:
             - Path=/add/**
         - id: multiply_service_route #http://localhost:7779/add?a=1&b=2
-          uri: http://localhost:7778
+          uri: ${gateway.services.multiplier-uri}
           predicates:
             - Path=/multiply/**
         - id: add_service_route_rewritten #http://localhost:7779/saberi/?a=1&b=2
-          uri: http://localhost:7777
+          uri: ${gateway.services.adder-uri}
           predicates:
             - Path=/saberi/**
           filters:
             - RewritePath=/saberi/(?<a>[^/]+)/(?<b>[^/]+), /add?a=$\{a}&b=$\{b}
         - id: multiply_service_route_rewritten
-          uri: http://localhost:7778
+          uri: ${gateway.services.multiplier-uri}
           predicates:
             - Path=/pomnozi/**
           filters:
             - RewritePath=/pomnozi/(?<a>[^/]+)/(?<b>[^/]+), /multiply?a=$\{a}&b=$\{b}
+
+gateway:
+  services:
+    adder-uri: http://localhost:7777
+    multiplier-uri: http://localhost:7778
 
 server:
   port: 7779
